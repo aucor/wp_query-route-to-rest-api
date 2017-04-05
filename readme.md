@@ -160,11 +160,11 @@ var args = {
 
 For other uses, keep in mind JS object/array syntax. If there's key + value, use object `{}`. If theres only value, use array `[]`.
 
-##Restrictions
+## Restrictions
 
 The route `/wp-json/wp_query/args/` sets some restrictions by default for queries. These restrictions can be lifted or hardened with filters and actions.
 
-###Allowed args
+### Allowed args
 ```
 'p',
 'name',
@@ -228,7 +228,7 @@ So biggest ones missing have something to do with getting content that you might
 
 ### Post types
 
-By default all the post types marked "public" are available. `'post_type' => 'any'` falls back to these available post types. You can change post types with filter to what you want.
+By default all the post types marked `'show_in_rest' => true` are available. `'post_type' => 'any'` falls back to these post types. You can change post types with filter to what you want.
 
 ### Post status
 
@@ -249,7 +249,11 @@ $default_args = array(
 ```
  In addition to the normal defaults from WP_Query.
  
-##Filters
+## Extra plugin compatibility features
+
+This plugin has built-in compatibility for [Relevanssi ('s' argument)](https://wordpress.org/plugins/relevanssi/) and [Polylang ('lang' argument)](https://wordpress.org/plugins/polylang/)
+ 
+## Filters
 
 **Add more allowed args:**
 ```php
@@ -334,7 +338,7 @@ add_filter( 'wp_query_route_to_rest_api_max_posts_per_page', 'my_max_posts_per_p
 ```
 
 
-##Hooks
+## Hooks
 
 **Before WP_Query:**
 ```php
