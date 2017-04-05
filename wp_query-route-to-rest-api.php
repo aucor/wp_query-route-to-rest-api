@@ -4,7 +4,7 @@
  * Description: Adds new route /wp-json/wp_query/args/ to REST API
  * Author: Aucor
  * Author URI: https://www.aucor.fi/
- * Version: 1.0
+ * Version: 1.1
  * License: GPL2+
  **/
 
@@ -255,8 +255,17 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
       
       // Extra safety check for unallowed posts
       if ( $this->check_is_post_allowed( $wp_query->post ) ) {
-        $itemdata = $this->prepare_item_for_response( $wp_query->post, $request );
-        $data[]   = $this->prepare_response_for_collection( $itemdata );
+
+        // Update properties post_type and meta to match current post_type
+        // This is kind of hacky, but the parent WP_REST_Posts_Controller
+        // does all kinds of assumptions from properties $post_type and
+        // $meta so we need to update it several times.
+        $this->post_type = $wp_query->post->post_type;
+        $this->meta = new WP_REST_Post_Meta_Fields( $wp_query->post->post_type );
+
+        // Use parent class functions to prepare the post
+        $itemdata = parent::prepare_item_for_response( $wp_query->post, $request );
+        $data[]   = parent::prepare_response_for_collection( $itemdata );
       }
 
     endwhile;

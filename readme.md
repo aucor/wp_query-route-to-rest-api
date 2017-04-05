@@ -378,3 +378,9 @@ $ composer aucor/wp_query-route-to-rest-api
 This is a WordPress plugin by 3rd party developer. WordPress.org or Automattic has nothing to do with this plugin. There's no warranty or quarantees. Thread carefully.
 
 If you see a critical functionality missing, please contribute!
+
+## Changelog
+
+### 1.1
+
+Make the return data structure same as /wp-json/wp/posts/. The data schema was missing some data before. Now the structure is inherited from the WP_REST_Posts_Controller as it should have from the start.
