@@ -2,18 +2,48 @@
 
 **Contributors:** [Teemu Suoranta](https://github.com/TeemuSuoranta)
 
-
 **Tags:** WordPress, REST API, WP_Query
-
 
 **License:** GPLv2+
 
+<!-- MarkdownTOC autolink="true" autoanchor="true" -->
+
+- [Description](#description)
+- [How to use](#how-to-use)
+  - [Basic usage](#basic-usage)
+  - [Use with PHP](#use-with-php)
+  - [Use with JS](#use-with-js)
+- [Advanced examples](#advanced-examples)
+  - [Advanced example: tax_query](#advanced-example-taxquery)
+  - [Advanced example: tax_query with relation](#advanced-example-taxquery-with-relation)
+  - [Advanced example: modifying existing WP_Query \(post archive, term archive, search etc\)](#advanced-example-modifying-existing-wpquery-post-archive-term-archive-search-etc)
+- [Restrictions](#restrictions)
+  - [Allowed args](#allowed-args)
+  - [Post types](#post-types)
+  - [Post status](#post-status)
+  - [Restriction fail-safe](#restriction-fail-safe)
+  - [Default WP_Query](#default-wpquery)
+- [Extra plugin compatibility features](#extra-plugin-compatibility-features)
+- [Filters](#filters)
+- [Hooks](#hooks)
+- [Install](#install)
+- [Issues and feature whishlist](#issues-and-feature-whishlist)
+- [Changelog](#changelog)
+  - [1.1.1](#111)
+  - [1.1](#11)
+
+<!-- /MarkdownTOC -->
+
+
+<a name="description"></a>
 ## Description
 
 Adds new route `/wp-json/wp_query/args/` to REST API. You can query content with WP_Query args. There's extensive filters and actions to limit or extend functionality.
 
+<a name="how-to-use"></a>
 ## How to use
 
+<a name="basic-usage"></a>
 ### Basic usage
 
 **Route**: `/wp-json/wp_query/args/` 
@@ -22,6 +52,7 @@ Adds new route `/wp-json/wp_query/args/` to REST API. You can query content with
 
 **You shoudn't write query args by hand!** It gets very complicated when you want to pass arrays for example with meta_query.
 
+<a name="use-with-php"></a>
 ### Use with PHP
 **1. Create $args**
 ```php
@@ -44,7 +75,8 @@ $response = wp_remote_get( 'https://your-site.local/wp-json/wp_query/args/?' . $
 $posts = json_decode( wp_remote_retrieve_body( $response ) );
 ```
 
-## Use with JS
+<a name="use-with-js"></a>
+### Use with JS
 **1. Create args**
 ```js
 var args = {
@@ -71,7 +103,11 @@ $.ajax({
 
 ```
 
-## Advanced example: tax_query
+<a name="advanced-examples"></a>
+## Advanced examples
+
+<a name="advanced-example-taxquery"></a>
+### Advanced example: tax_query
 
 Get posts that have **both** tags "wordpress" and "woocommerce"
 
@@ -114,7 +150,8 @@ var args = {
 }; 
 ```
 
-## Advanced example: tax_query with relation
+<a name="advanced-example-taxquery-with-relation"></a>
+### Advanced example: tax_query with relation
 
 Get posts that have **either** "wordpress" **or** "woocommerce" tag. This gets tricky because JS doesn't support completely the same array structure as PHP. If you only need PHP, this is a piece of cake.
 
@@ -160,10 +197,30 @@ var args = {
 
 For other uses, keep in mind JS object/array syntax. If there's key + value, use object `{}`. If theres only value, use array `[]`.
 
+<a name="advanced-example-modifying-existing-wpquery-post-archive-term-archive-search-etc"></a>
+### Advanced example: modifying existing WP_Query (post archive, term archive, search etc)
+
+Sometimes you need to create features that add small tweaks to current query that WordPress, theme or plugins has already defined. These include "load more" buttons, filters etc. You can create that query from scratch if you want, but there is a neat way to get the current query for JS.
+
+You can add this to your `archive.php` or whatever PHP template you need:
+
+```php
+<?php
+// Get the main WP_Query for archive, term, single-post etc
+global $wp_query;
+?>
+<script>var wp_query = <?php echo json_encode( $wp_query->query ) ?>;</script>
+```
+
+
+Now you can access the query in JS from this var `wp_query`. Props @timiwahalahti for this idea.
+
+<a name="restrictions"></a>
 ## Restrictions
 
 The route `/wp-json/wp_query/args/` sets some restrictions by default for queries. These restrictions can be lifted or hardened with filters and actions.
 
+<a name="allowed-args"></a>
 ### Allowed args
 ```
 'p',
@@ -226,18 +283,22 @@ The route `/wp-json/wp_query/args/` sets some restrictions by default for querie
 ```
 So biggest ones missing have something to do with getting content that you might not want to get like `post_status` drafts (add this argument to the list with filter if you need it). By default, no querying `post_passwords` or having your way with cache settings.
 
+<a name="post-types"></a>
 ### Post types
 
 By default all the post types marked `'show_in_rest' => true` are available. `'post_type' => 'any'` falls back to these post types. You can change post types with filter to what you want.
 
+<a name="post-status"></a>
 ### Post status
 
 By default, only "publish" is allowed. Add other post_status as needed with filter.
 
+<a name="restriction-fail-safe"></a>
 ### Restriction fail-safe
 
 Addition to restriction of WP_Query args, there is check after the query that queried posts will not be forbidden post types or post_status.
 
+<a name="default-wpquery"></a>
 ### Default WP_Query
 
 ```php
@@ -249,10 +310,12 @@ $default_args = array(
 ```
  In addition to the normal defaults from WP_Query.
  
+<a name="extra-plugin-compatibility-features"></a>
 ## Extra plugin compatibility features
 
 This plugin has built-in compatibility for [Relevanssi ('s' argument)](https://wordpress.org/plugins/relevanssi/) and [Polylang ('lang' argument)](https://wordpress.org/plugins/polylang/)
  
+<a name="filters"></a>
 ## Filters
 
 **Add more allowed args:**
@@ -338,6 +401,7 @@ add_filter( 'wp_query_route_to_rest_api_max_posts_per_page', 'my_max_posts_per_p
 ```
 
 
+<a name="hooks"></a>
 ## Hooks
 
 **Before WP_Query:**
@@ -355,6 +419,7 @@ function my_after_query($wp_query) {
 add_action( 'wp_query_route_to_rest_api_after_query', 'my_after_query' );
 ```
 
+<a name="install"></a>
 ## Install
 
 Download and activate. That's it.
@@ -377,14 +442,22 @@ $ composer aucor/wp_query-route-to-rest-api
 }
 ```
 
+<a name="issues-and-feature-whishlist"></a>
 ## Issues and feature whishlist
 
 This is a WordPress plugin by 3rd party developer. WordPress.org or Automattic has nothing to do with this plugin. There's no warranty or quarantees. Thread carefully.
 
 If you see a critical functionality missing, please contribute!
 
+<a name="changelog"></a>
 ## Changelog
 
+<a name="111"></a>
+### 1.1.1
+
+Added advanced example in readme for getting PHP WP_Query for JS. Added table of contents. Made the title hierarchy more logical.
+
+<a name="11"></a>
 ### 1.1
 
 Make the return data structure same as /wp-json/wp/posts/. The data schema was missing some data before. Now the structure is inherited from the WP_REST_Posts_Controller as it should have from the start.
