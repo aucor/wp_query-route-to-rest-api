@@ -354,7 +354,7 @@ add_filter( 'wp_query_route_to_rest_api_allowed_post_types', 'my_allowed_post_ty
 
 ```php
 function my_allowed_post_status($post_status) {
-  $post_types[] = 'draft';
+  $post_status[] = 'draft';
   return $post_status;
 }
 add_filter( 'wp_query_route_to_rest_api_allowed_post_status', 'my_allowed_post_status' );
