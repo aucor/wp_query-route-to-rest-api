@@ -90,9 +90,58 @@ var args = {
 var query_str = jQuery.param( args );
 ```
 **2 b) Some other JS solution**
+[query-string](https://www.npmjs.com/package/query-string) handles most use cases, but as query strings aren't really standardized, YMMV. 
 
-You tell me... There's `.toQueryString` but it might still be in prototype.
+One example of where it falls short:
+```javascript
+const params = {
+  "paged": 1,
+  "order": "desc",
+  "posts_per_page": 1,
+  "tax_query": [
+    {
+      "taxonomy": "category",
+      "field": "term_id",
+      "terms": [
+        1
+      ]
+    },
+    {
+      "taxonomy": "category",
+      "field": "term_id",
+      "terms": [
+        2
+      ]
+    }
+  ]
+}
+```
 
+One possible solution, ES2015:
+```javascript
+let qsAdditions = ''
+
+if (params.tax_query) {
+  // Define a helper method for getting a querystring part
+  const part = (i, key, value) => Array.isArray(value)
+    ? value.reduce((acc, v, i2) => (
+      acc += `&tax_query[${i}][${key}][${i2}]=${v}`
+    ), '')
+    : `&tax_query[${i}][${key}]=${value}`
+    
+  // Loop the params and glue pieces of querystrings together
+  qsAdditions += params_tax_query.reduce((acc, cond, i) => (
+    acc += part(i, 'taxonomy', cond.taxonomy || 'category') +
+      part(i, 'field', cond.field || 'term_id') +
+      part(i, 'terms', cond.terms)
+  ), '')
+  
+  // Delete value from object so query-string won't parse it
+  delete params.tax_query
+}
+
+const query_str = querystring.stringify(params) + qsAdditions
+```
 **3. Make the call**
 ```js
 $.ajax({
