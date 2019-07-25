@@ -25,6 +25,11 @@ Download and activate. That's it.
 
 == Changelog ==
 
+= 1.2.0 = 
+*Release Date - 25 July 2019*
+
+*Wordpress.org release
+
 = 1.1.1 =
 *Release Date - 3 June 2017*
 

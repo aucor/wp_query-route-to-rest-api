@@ -29,6 +29,7 @@
 - [Install](#install)
 - [Issues and feature whishlist](#issues-and-feature-whishlist)
 - [Changelog](#changelog)
+  - [1.2.0](#120)
   - [1.1.1](#111)
   - [1.1](#11)
 
@@ -500,6 +501,11 @@ If you see a critical functionality missing, please contribute!
 
 <a name="changelog"></a>
 ## Changelog
+
+<a name="120"></a>
+### 1.2.0
+
+Wordpress.org release.
 
 <a name="111"></a>
 ### 1.1.1
