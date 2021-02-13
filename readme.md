@@ -97,11 +97,6 @@ const endpointURL = addQueryArgs( '/wp-json/wp_query/args/', args );
 **2 b) Some other JS solution**
 [query-string](https://www.npmjs.com/package/query-string) handles most use cases, but as query strings aren't really standardized, YMMV. 
 
-**2 c) Create params with jQuery**
-```js
-var query_str = jQuery.param( args );
-```
-
 One example of where it falls short:
 ```javascript
 const params = {
@@ -125,6 +120,11 @@ const params = {
     }
   ]
 }
+```
+
+**2 c) Create params with jQuery**
+```js
+var query_str = jQuery.param( args );
 ```
 
 One possible solution, ES2015:
