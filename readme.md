@@ -86,12 +86,21 @@ var args = {
   'order': 'ASC'
 }; 
 ```
-**2 a) Create params with jQuery**
+
+**2 a) Create params with for example using `@wordpress/url` package**
+```js
+import { addQueryArgs } from '@wordpress/url';
+
+const endpointURL = addQueryArgs( '/wp-json/wp_query/args/', args );
+```
+
+**2 b) Some other JS solution**
+[query-string](https://www.npmjs.com/package/query-string) handles most use cases, but as query strings aren't really standardized, YMMV. 
+
+**2 c) Create params with jQuery**
 ```js
 var query_str = jQuery.param( args );
 ```
-**2 b) Some other JS solution**
-[query-string](https://www.npmjs.com/package/query-string) handles most use cases, but as query strings aren't really standardized, YMMV. 
 
 One example of where it falls short:
 ```javascript
@@ -144,6 +153,25 @@ if (params.tax_query) {
 const query_str = querystring.stringify(params) + qsAdditions
 ```
 **3. Make the call**
+```js
+fetch( addQueryArgs( '/wp-json/wp_query/args/', args ) )
+	.then( function ( response ) {
+		// The API call was succesful.
+		if ( response.ok ) {
+			return response.json();
+		} else {
+			return Promise.reject( response );
+		}
+	} ).then( function ( data ) {
+		// Do something with data.
+		console.log( data, data[0].title );
+	} ).catch( function ( err ) {
+		// There was an error.
+		console.warn( 'Something went wrong.', err );
+	} );
+```
+
+Or with jQuery.
 ```js
 $.ajax({
   url: 'https://your.site.local/wp-json/wp_query/args/?' + query_str,
