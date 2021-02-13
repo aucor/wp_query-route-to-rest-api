@@ -166,7 +166,7 @@ fetch( addQueryArgs( '/wp-json/wp_query/args/', args ) )
     }
   } ).then( function ( data ) {
     // Do something with data.
-    console.log( data, data[0].title );
+    console.log( data );
   } ).catch( function ( err ) {
     // There was an error.
     console.warn( 'Something went wrong.', err );
