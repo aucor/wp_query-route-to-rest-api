@@ -157,20 +157,20 @@ var query_str = jQuery.param( args );
 **3. Make the call**
 ```js
 fetch( addQueryArgs( '/wp-json/wp_query/args/', args ) )
-	.then( function ( response ) {
-		// The API call was succesful.
-		if ( response.ok ) {
-			return response.json();
-		} else {
-			return Promise.reject( response );
-		}
-	} ).then( function ( data ) {
-		// Do something with data.
-		console.log( data, data[0].title );
-	} ).catch( function ( err ) {
-		// There was an error.
-		console.warn( 'Something went wrong.', err );
-	} );
+  .then( function ( response ) {
+    // The API call was succesful.
+    if ( response.ok ) {
+      return response.json();
+    } else {
+      return Promise.reject( response );
+    }
+  } ).then( function ( data ) {
+    // Do something with data.
+    console.log( data, data[0].title );
+  } ).catch( function ( err ) {
+    // There was an error.
+    console.warn( 'Something went wrong.', err );
+  } );
 ```
 
 Or with jQuery.
