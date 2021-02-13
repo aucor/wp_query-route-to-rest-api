@@ -122,10 +122,6 @@ const params = {
 }
 ```
 
-**2 c) Create params with jQuery**
-```js
-var query_str = jQuery.param( args );
-```
 
 One possible solution, ES2015:
 ```javascript
@@ -152,6 +148,12 @@ if (params.tax_query) {
 
 const query_str = querystring.stringify(params) + qsAdditions
 ```
+
+**2 c) Create params with jQuery**
+```js
+var query_str = jQuery.param( args );
+```
+
 **3. Make the call**
 ```js
 fetch( addQueryArgs( '/wp-json/wp_query/args/', args ) )
