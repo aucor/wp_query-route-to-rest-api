@@ -476,7 +476,7 @@ Download and activate. That's it.
 
 **Composer:**
 ```
-$ composer aucor/wp_query-route-to-rest-api
+$ composer require aucor/wp_query-route-to-rest-api
 ```
 **With composer.json:**
 ```
