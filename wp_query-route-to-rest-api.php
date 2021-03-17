@@ -264,13 +264,13 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
         // does all kinds of assumptions from properties $post_type and
         // $meta so we need to update it several times.
         // Allow filtering by meta: default yes
-        if( apply_filters( 'wp_query_toute_to_rest_api_update_post_type_meta', true ) ) {
+        if( apply_filters( 'wp_query_route_to_rest_api_update_post_type_meta', true ) ) {
           $this->post_type = $wp_query->post->post_type;
           $this->meta = new WP_REST_Post_Meta_Fields( $wp_query->post->post_type );
         }
 
         // Use parent class functions to prepare the post
-        if( apply_filters( 'wp_query_toute_to_rest_api_use_parent_class', true ) ) {
+        if( apply_filters( 'wp_query_route_to_rest_api_use_parent_class', true ) ) {
           $itemdata = parent::prepare_item_for_response( $wp_query->post, $request );
           $data[]   = parent::prepare_response_for_collection( $itemdata );
         }
