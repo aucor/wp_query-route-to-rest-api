@@ -257,7 +257,7 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
       // Extra safety check for unallowed posts
       if ( $this->check_is_post_allowed( $wp_query->post ) ) {
         // After loop hook
-        $data = apply_filters( 'wp_query_route_to_rest_api_after_loop', $data, $wp_query, $args );
+        $data = apply_filters( 'wp_query_route_to_rest_api_after_loop_data', $data, $wp_query, $args );
 
         // Update properties post_type and meta to match current post_type
         // This is kind of hacky, but the parent WP_REST_Posts_Controller
