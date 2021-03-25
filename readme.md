@@ -480,6 +480,40 @@ add_filter( 'wp_query_route_to_rest_api_max_posts_per_page', 'my_max_posts_per_p
 
 ```
 
+**Modify default $data:**
+```php
+function my_default_data($data) {
+  $data = array(
+    'html'     => false,
+    'messages' => array(
+      'empty' => esc_html__( 'No results found.', 'text-domain' ),
+    ),
+  );
+
+  return $data;
+}
+add_filter( 'wp_query_route_to_rest_api_default_data', 'my_default_data' );
+```
+
+**Modify $data after loop:**
+```php
+function my_default_data($data, $wp_query, $args) {
+  // Do something with the data.
+
+  return $data;
+}
+add_filter( 'wp_query_route_to_rest_api_after_loop_data', 'my_default_data', 10, 3 );
+```
+
+**Remove post type meta:**
+```php
+add_filter( 'wp_query_route_to_rest_api_update_post_type_meta', '__return_false' );
+```
+
+**Remove parent class:**
+```php
+add_filter( 'wp_query_route_to_rest_api_use_parent_class', '__return_false' );
+```
 
 <a name="hooks"></a>
 ## Hooks

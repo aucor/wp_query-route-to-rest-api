@@ -250,22 +250,30 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
     do_action( 'wp_query_route_to_rest_api_after_query', $wp_query );
 
     $data = array();
+    $data = apply_filters( 'wp_query_route_to_rest_api_default_data', $data );
 
     while ( $wp_query->have_posts() ) : $wp_query->the_post();
       
       // Extra safety check for unallowed posts
       if ( $this->check_is_post_allowed( $wp_query->post ) ) {
+        // After loop hook
+        $data = apply_filters( 'wp_query_route_to_rest_api_after_loop_data', $data, $wp_query, $args );
 
         // Update properties post_type and meta to match current post_type
         // This is kind of hacky, but the parent WP_REST_Posts_Controller
         // does all kinds of assumptions from properties $post_type and
         // $meta so we need to update it several times.
-        $this->post_type = $wp_query->post->post_type;
-        $this->meta = new WP_REST_Post_Meta_Fields( $wp_query->post->post_type );
+        // Allow filtering by meta: default yes
+        if( apply_filters( 'wp_query_route_to_rest_api_update_post_type_meta', true ) ) {
+          $this->post_type = $wp_query->post->post_type;
+          $this->meta = new WP_REST_Post_Meta_Fields( $wp_query->post->post_type );
+        }
 
         // Use parent class functions to prepare the post
-        $itemdata = parent::prepare_item_for_response( $wp_query->post, $request );
-        $data[]   = parent::prepare_response_for_collection( $itemdata );
+        if( apply_filters( 'wp_query_route_to_rest_api_use_parent_class', true ) ) {
+          $itemdata = parent::prepare_item_for_response( $wp_query->post, $request );
+          $data[]   = parent::prepare_response_for_collection( $itemdata );
+        }
       }
 
     endwhile;
