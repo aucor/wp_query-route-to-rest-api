@@ -569,7 +569,7 @@ If you see a critical functionality missing, please contribute!
 <a name="120"></a>
 ### 1.2.0
 
-Wordpress.org release.
+WordPress.org release.
 
 <a name="111"></a>
 ### 1.1.1
