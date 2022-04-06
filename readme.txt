@@ -1,5 +1,5 @@
 === WP_Query Route To REST API ===
-Contributors: Teemu Suoranta
+Contributors: Teemu Suoranta, Sami Keijonen, Christian Nikkanen
 Tags: WordPress, REST API, WP_Query
 Requires at least: 4.7.3
 Tested up to: 5.9.2

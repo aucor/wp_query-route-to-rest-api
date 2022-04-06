@@ -1,6 +1,6 @@
 # WP_Query Route To REST API
 
-**Contributors:** [Teemu Suoranta](https://github.com/TeemuSuoranta)
+**Contributors:** [Teemu Suoranta](https://github.com/TeemuSuoranta), [Sami Keijonen](https://github.com/samikeijonen), [Christian Nikkanen](https://github.com/k1sul1)
 
 **Tags:** WordPress, REST API, WP_Query
 
