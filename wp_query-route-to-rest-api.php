@@ -98,16 +98,18 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
     );
 
 
-    // Allow filtering by author: default yes
-    if( apply_filters( 'wp_query_toute_to_rest_api_allow_authors', true ) ) {
+    // Allow filtering by author: default yes (backwards compatibility: legacy filter with typo)
+    $allow_authors = apply_filters( 'wp_query_route_to_rest_api_allow_authors', apply_filters( 'wp_query_toute_to_rest_api_allow_authors', true ) );
+    if ( $allow_authors ) {
       $allowed_args[] = 'author';
       $allowed_args[] = 'author_name';
       $allowed_args[] = 'author__in';
       $allowed_args[] = 'author__not_in';
     }
 
-    // Allow filtering by meta: default yes
-    if( apply_filters( 'wp_query_toute_to_rest_api_allow_meta', true ) ) {
+    // Allow filtering by meta: default yes (backwards compatibility: legacy filter with typo)
+    $allow_meta = apply_filters( 'wp_query_route_to_rest_api_allow_meta', apply_filters( 'wp_query_toute_to_rest_api_allow_meta', true ) );
+    if ( $allow_meta ) {
       $allowed_args[] = 'meta_key';
       $allowed_args[] = 'meta_value';
       $allowed_args[] = 'meta_value_num';
@@ -115,13 +117,15 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
       $allowed_args[] = 'meta_query';
     }
 
-    // Allow search: default yes
-    if( apply_filters( 'wp_query_toute_to_rest_api_allow_search', true ) ) {
+    // Allow search: default yes (backwards compatibility: legacy filter with typo)
+    $allow_search = apply_filters( 'wp_query_route_to_rest_api_allow_search', apply_filters( 'wp_query_toute_to_rest_api_allow_search', true ) );
+    if ( $allow_search ) {
       $allowed_args[] = 's';
     }
 
-    // Allow filtering by taxonomies: default yes
-    if( apply_filters( 'wp_query_toute_to_rest_api_allow_taxonomies', true ) ) {
+    // Allow filtering by taxonomies: default yes (backwards compatibility: legacy filter with typo)
+    $allow_taxonomies = apply_filters( 'wp_query_route_to_rest_api_allow_taxonomies', apply_filters( 'wp_query_toute_to_rest_api_allow_taxonomies', true ) );
+    if ( $allow_taxonomies ) {
       $allowed_args[] = 'cat';
       $allowed_args[] = 'category_name';
       $allowed_args[] = 'category__and';
