@@ -3,7 +3,7 @@ Contributors: Teemu Suoranta, Sami Keijonen, Christian Nikkanen
 Tags: WordPress, REST API, WP_Query
 Requires at least: 4.7.3
 Tested up to: 5.9.2
-Stable tag: trunk
+Stable tag: 1.3.0
 Requires PHP: 7.0
 License: GPLv2+
 
