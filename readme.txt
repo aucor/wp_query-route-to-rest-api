@@ -25,6 +25,16 @@ Download and activate. That's it.
 
 == Changelog ==
 
+= 1.3.0 =
+*Release Date - 5 April 2022*
+
+Compatibility release with a few new features. 100% backwards compatible.
+
+* Custom HTML output is now allowed (#10)
+* Instance and argument sanitizing can be now reused (#11)
+* Typos in filter names are fixed while keeping old names also working (#5)
+* Updates WP version, plugin version and some readme tweaks
+
 = 1.2.0 =
 *Release Date - 25 July 2019*
 

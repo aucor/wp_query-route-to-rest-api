@@ -29,6 +29,7 @@
 - [Install](#install)
 - [Issues and feature whishlist](#issues-and-feature-whishlist)
 - [Changelog](#changelog)
+  - [1.3.0](#130)
   - [1.2.0](#120)
   - [1.1.1](#111)
   - [1.1](#11)
@@ -47,7 +48,7 @@ Adds new route `/wp-json/wp_query/args/` to REST API. You can query content with
 <a name="basic-usage"></a>
 ### Basic usage
 
-**Route**: `/wp-json/wp_query/args/` 
+**Route**: `/wp-json/wp_query/args/`
 
 **Get three projects**: `/wp-json/wp_query/args/?post_type=project&posts_per_page=3`
 
@@ -61,7 +62,7 @@ $args = array(
   'post_type' => 'post',
   'orderby' => 'title',
   'order' => 'ASC'
-); 
+);
 ```
 **2. Turn $args into query string** [(Reference)](https://codex.wordpress.org/Function_Reference/build_query)
 ```php
@@ -84,7 +85,7 @@ var args = {
   'post_type': 'post',
   'orderby': 'title',
   'order': 'ASC'
-}; 
+};
 ```
 
 **2 a) Create params with for example using `@wordpress/url` package**
@@ -95,7 +96,7 @@ const endpointURL = addQueryArgs( '/wp-json/wp_query/args/', args );
 ```
 
 **2 b) Some other JS solution**
-[query-string](https://www.npmjs.com/package/query-string) handles most use cases, but as query strings aren't really standardized, YMMV. 
+[query-string](https://www.npmjs.com/package/query-string) handles most use cases, but as query strings aren't really standardized, YMMV.
 
 One example of where it falls short:
 ```javascript
@@ -134,14 +135,14 @@ if (params.tax_query) {
       acc += `&tax_query[${i}][${key}][${i2}]=${v}`
     ), '')
     : `&tax_query[${i}][${key}]=${value}`
-    
+
   // Loop the params and glue pieces of querystrings together
   qsAdditions += params_tax_query.reduce((acc, cond, i) => (
     acc += part(i, 'taxonomy', cond.taxonomy || 'category') +
       part(i, 'field', cond.field || 'term_id') +
       part(i, 'terms', cond.terms)
   ), '')
-  
+
   // Delete value from object so query-string won't parse it
   delete params.tax_query
 }
@@ -207,7 +208,7 @@ $args = array(
       'terms'    => array( 'woocommerce' ),
     ),
   ),
-); 
+);
 ```
 
 **JS:**
@@ -227,7 +228,7 @@ var args = {
       'terms': [ 'woocommerce' ]
     }
   ]
-}; 
+};
 ```
 
 <a name="advanced-example-taxquery-with-relation"></a>
@@ -389,12 +390,12 @@ $default_args = array(
 );
 ```
  In addition to the normal defaults from WP_Query.
- 
+
 <a name="extra-plugin-compatibility-features"></a>
 ## Extra plugin compatibility features
 
 This plugin has built-in compatibility for [Relevanssi ('s' argument)](https://wordpress.org/plugins/relevanssi/) and [Polylang ('lang' argument)](https://wordpress.org/plugins/polylang/)
- 
+
 <a name="filters"></a>
 ## Filters
 
@@ -565,6 +566,16 @@ If you see a critical functionality missing, please contribute!
 
 <a name="changelog"></a>
 ## Changelog
+
+<a name="130"></a>
+### 1.3.0
+
+Compatibility release with a few new features. 100% backwards compatible.
+
+* Custom HTML output is now allowed (#10)
+* Instance and argument sanitizing can be now reused (#11)
+* Typos in filter names are fixed while keeping old names also working (#5)
+* Updates WP version, plugin version and some readme tweaks
 
 <a name="120"></a>
 ### 1.2.0
