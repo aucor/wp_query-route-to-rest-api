@@ -2,7 +2,7 @@
 Contributors: Teemu Suoranta
 Tags: WordPress, REST API, WP_Query
 Requires at least: 4.7.3
-Tested up to: 4.9.8
+Tested up to: 5.9.2
 Stable tag: trunk
 Requires PHP: 7.0
 License: GPLv2+
