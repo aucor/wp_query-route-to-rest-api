@@ -4,7 +4,7 @@
  * Description: Adds new route /wp-json/wp_query/args/ to REST API
  * Author: Aucor
  * Author URI: https://www.aucor.fi/
- * Version: 1.1.1
+ * Version: 1.2.1
  * License: GPL2+
  **/
 
@@ -51,16 +51,7 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
     return apply_filters( 'wp_query_route_to_rest_api_permissions_check', true, $request );
   }
 
-  /**
-   * Get a collection of items
-   *
-   * @param WP_REST_Request $request Full data about the request.
-   */
-
-  public function get_items( $request ) {
-
-    $parameters = $request->get_query_params();
-
+  public function sanitize_query_parameters ( $parameters ) {
     $default_args = array(
       'post_status'     => 'publish',
       'posts_per_page'  => 10,
@@ -105,7 +96,7 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
       'post_mime_type',
       'lang', // Polylang
     );
-    
+
 
     // Allow filtering by author: default yes
     if( apply_filters( 'wp_query_toute_to_rest_api_allow_authors', true ) ) {
@@ -163,7 +154,7 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
           case 'post_type':
 
             // Multiple values
-            if( is_array( $value ) ) { 
+            if( is_array( $value ) ) {
               foreach ( $value as $sub_key => $sub_value ) {
                 // Bail if there's even one post type that's not allowed
                 if( !$this->check_is_post_type_allowed( $sub_value ) ) {
@@ -201,7 +192,7 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
           case 'posts_status':
 
             // Multiple values
-            if( is_array( $value ) ) { 
+            if( is_array( $value ) ) {
               foreach ( $value as $sub_key => $sub_value ) {
                 // Bail if there's even one post status that's not allowed
                 if( !$this->check_is_post_status_allowed( $sub_value ) ) {
@@ -240,6 +231,12 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
       $args[$key] = apply_filters( 'wp_query_route_to_rest_api_arg_value', $value, $key, $args );
     }
 
+    return $args;
+  }
+
+  public function build_query ( $parameters ) {
+    $args = $this->sanitize_query_parameters( $parameters );
+
     // Before query: hook your plugins here
     do_action( 'wp_query_route_to_rest_api_before_query', $args );
 
@@ -249,11 +246,24 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
     // After query: hook your plugins here
     do_action( 'wp_query_route_to_rest_api_after_query', $wp_query );
 
+    return $wp_query;
+  }
+
+  /**
+   * Get a collection of items
+   *
+   * @param WP_REST_Request $request Full data about the request.
+   */
+
+  public function get_items( $request ) {
+    $parameters = $request->get_query_params();
+    $wp_query = $this->build_query( $parameters );
+
     $data = array();
     $data = apply_filters( 'wp_query_route_to_rest_api_default_data', $data );
 
     while ( $wp_query->have_posts() ) : $wp_query->the_post();
-      
+
       // Extra safety check for unallowed posts
       if ( $this->check_is_post_allowed( $wp_query->post ) ) {
         // After loop hook
@@ -277,7 +287,7 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
       }
 
     endwhile;
- 
+
     return $this->get_response( $request, $args, $wp_query, $data );
   }
 
@@ -298,10 +308,10 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
 
     // Prepare data
     $response = new WP_REST_Response( $data, 200 );
-  
+
     // Total amount of posts
     $response->header( 'X-WP-Total', intval( $wp_query->found_posts ) );
-    
+
     // Total number of pages
     $max_pages = ( absint( $args[ 'posts_per_page' ] ) == 0 ) ? 1 : ceil( $wp_query->found_posts / $args[ 'posts_per_page' ] );
     $response->header( 'X-WP-TotalPages', intval( $max_pages ) );
@@ -368,7 +378,7 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
    */
 
   protected function check_is_post_allowed( $post ) {
-    
+
     // Is allowed post_status
     if( !$this->check_is_post_status_allowed( $post->post_status ) ) {
       return false;
@@ -386,7 +396,7 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
   /**
    * Plugin compatibility args
    *
-   * @param array $args 
+   * @param array $args
    *
    * @return array $args
    */
@@ -402,7 +412,7 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
   /**
    * Plugin compatibility after query
    *
-   * @param WP_Query $wp_query 
+   * @param WP_Query $wp_query
    */
 
   public function plugin_compatibility_after_query( $wp_query ) {
@@ -417,11 +427,25 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
 }
 
 /**
+ * This allows access to the class instance from other places.
+ */
+
+function wp_query_route_to_rest_api_get_instance() {
+  static $instance;
+
+  if ( ! $instance ) {
+    $instance = new WP_Query_Route_To_REST_API();
+  }
+
+  return $instance;
+}
+
+/**
  * Init only when needed
  */
 
 function wp_query_route_to_rest_api_init() {
-  new WP_Query_Route_To_REST_API();
+  wp_query_route_to_rest_api_get_instance();
 }
 add_action( 'rest_api_init', 'wp_query_route_to_rest_api_init' );
 
