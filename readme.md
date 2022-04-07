@@ -29,6 +29,7 @@
 - [Install](#install)
 - [Issues and feature whishlist](#issues-and-feature-whishlist)
 - [Changelog](#changelog)
+  - [1.3.1](#131)
   - [1.3.0](#130)
   - [1.2.0](#120)
   - [1.1.1](#111)
@@ -566,6 +567,11 @@ If you see a critical functionality missing, please contribute!
 
 <a name="changelog"></a>
 ## Changelog
+
+<a name="131"></a>
+### 1.3.1
+
+Fix composer license to a valid license.
 
 <a name="130"></a>
 ### 1.3.0
