@@ -1,8 +1,8 @@
 === WP_Query Route To REST API ===
-Contributors: Teemu Suoranta, Sami Keijonen, Christian Nikkanen
+Contributors: teemusuoranta, samikeijonen, christian-nikkanen
 Tags: WordPress, REST API, WP_Query
 Requires at least: 4.7.3
-Tested up to: 5.9.2
+Tested up to: 5.9.3
 Stable tag: 1.3.1
 Requires PHP: 7.0
 License: GPLv2+
@@ -24,6 +24,11 @@ Adds new route /wp-json/wp_query/args/ to REST API.
 Download and activate. That's it.
 
 == Changelog ==
+
+= 1.3.2 =
+*Release Date - 12 April 2022*
+
+Fix PHP warning caused by 1.3.0 argument sanitizing refactoring.
 
 = 1.3.1 =
 *Release Date - 7 April 2022*

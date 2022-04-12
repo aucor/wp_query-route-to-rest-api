@@ -4,7 +4,7 @@
  * Description: Adds new route /wp-json/wp_query/args/ to REST API
  * Author: Aucor
  * Author URI: https://www.aucor.fi/
- * Version: 1.3.1
+ * Version: 1.3.2
  * License: GPL2+
  **/
 

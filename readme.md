@@ -29,6 +29,7 @@
 - [Install](#install)
 - [Issues and feature whishlist](#issues-and-feature-whishlist)
 - [Changelog](#changelog)
+  - [1.3.2](#132)
   - [1.3.1](#131)
   - [1.3.0](#130)
   - [1.2.0](#120)
@@ -565,8 +566,17 @@ This is a WordPress plugin by 3rd party developer. WordPress.org or Automattic h
 
 If you see a critical functionality missing, please contribute!
 
+**Looking for similar API to WP_User_Query?**
+
+Install also [MEOM/meom-user-query](https://github.com/MEOM/meom-user-query)
+
 <a name="changelog"></a>
 ## Changelog
+
+<a name="132"></a>
+### 1.3.2
+
+Fix PHP warning caused by 1.3.0 argument sanitizing refactoring.
 
 <a name="131"></a>
 ### 1.3.1
