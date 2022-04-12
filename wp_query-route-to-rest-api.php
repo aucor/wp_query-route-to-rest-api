@@ -261,6 +261,7 @@ class WP_Query_Route_To_REST_API extends WP_REST_Posts_Controller {
 
   public function get_items( $request ) {
     $parameters = $request->get_query_params();
+    $args = $this->sanitize_query_parameters( $parameters );
     $wp_query = $this->build_query( $parameters );
 
     $data = array();
