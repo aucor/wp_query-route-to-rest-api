@@ -3,7 +3,7 @@ Contributors: teemusuoranta, samikeijonen, christian-nikkanen
 Tags: WordPress, REST API, WP_Query
 Requires at least: 4.7.3
 Tested up to: 5.9.3
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 Requires PHP: 7.0
 License: GPLv2+
 
